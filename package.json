@@ -3,6 +3,10 @@
   "version": "0.0.2",
   "description": "",
   "main": "build/stage0-render-plugin.min.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/trsh/rete-stage0-render-plugin"
+  },
   "scripts": {
     "build": "rete --build rete.config.js",
     "build:dev": "rete --build rete.config.js --watch",

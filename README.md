@@ -2,7 +2,7 @@ Stage0 Render
 ====
 #### Rete.js plugin
 
-https://codepen.io/anon/pen/gQmeJM
+https://codepen.io/anon/pen/jQBxKe
 
 ```js
 import Stage0RenderPlugin from 'rete-stage0-render-plugin';

@@ -4,8 +4,8 @@ export default {
     input: 'src/index.js',
     name: 'Stage0RenderPlugin',
     globals: {
-        'stage0/index': 'h',
-        'stage0/reconcile': 'reconcile'
+        'stage0': 'stage0',
+        'stage0/reconcile': 'stage0'
     },
     plugins: [
         sass({

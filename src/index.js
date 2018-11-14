@@ -1,4 +1,4 @@
-import h from "./stage0/index";
+import h from "stage0";
 
 import {
   NodeComponent,

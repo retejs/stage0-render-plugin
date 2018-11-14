@@ -1,5 +1,5 @@
-import h from "./stage0/index";
-import { reconcile } from "./stage0/reconcile";
+import h from "stage0";
+import { reconcile } from "stage0/reconcile";
 
 import "./node.sass";
 import "./socket.sass";

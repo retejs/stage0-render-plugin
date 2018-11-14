@@ -1,0 +1,21 @@
+{
+  "name": "rete-stage0-render-plugin",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/stage0-render-plugin.min.js",
+  "scripts": {
+    "build": "rete --build rete.config.js",
+    "build:dev": "rete --build rete.config.js --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "stage0": "^0.0.11"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.3",
+    "rete-cli": "^0.1.2",
+    "rollup-plugin-sass": "^0.9.2"
+  }
+}

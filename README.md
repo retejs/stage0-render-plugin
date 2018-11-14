@@ -7,6 +7,7 @@ import Stage0RenderPlugin from 'rete-stage0-render-plugin';
 
 editor.use(Stage0RenderPlugin);
 ```
+TODO
 
 ```js
 import CustomNodeComponent from './CustomNodeComponent.js';
@@ -30,6 +31,7 @@ class MyControl extends Rete.Control {
     }
 }
 ```
+TODO
 
 ```js
 const node = editor.nodes[0];

@@ -15,7 +15,8 @@ import {
  * @param {*} control
  */
 function RootControlComponent(editor, { el, control, controlProps }) {
-  this.component = control.component;
+  this.component = Object.assign({}, control.component, controlProps);
+
   this.editor = editor;
   this.el = el;
 
@@ -41,14 +42,12 @@ function createNode({ el, nodeProps, component }) {
   return comp;
 }
 
-function createControl(editor, { el, control, controlProps }) {
-  Object.assign(control.component, controlProps)
-
+function createControl(editor, { el, control, controlProps }) {  
   const comp = new RootControlComponent(editor, { el, control, controlProps });
   control.stage0Context = comp;
   el.appendChild(comp.root);
   
-  control.component.mounted();
+  comp.component.mounted();
 
   return comp;
 }

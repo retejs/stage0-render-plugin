@@ -21,16 +21,15 @@ function RootControlComponent(editor, { el, control, controlProps }) {
   this.el = el;
 
   BaseComponent.call(this, control);
-  this.component.root = this.root;
+  this.component.root = this.root; // TODO before first upd?
 }
 
 RootControlComponent.prototype.getView = function() {
   return h([this.component.template]);
 };
 
-RootControlComponent.prototype.rootUpdate = function() {
-  this.component.methods.update = this.component.methods.update.bind(this.component);
-  this.component.methods.update();
+RootControlComponent.prototype.rootUpdate = function(control) {
+  this.component.methods.update.apply(this.component);
 };
 
 extend(RootControlComponent, BaseComponent);

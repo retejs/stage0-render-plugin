@@ -2,18 +2,18 @@ Stage0 Render
 ====
 #### Rete.js plugin
 
-https://codepen.io/anon/pen/jQBxKe
+Rete renderer using https://www.npmjs.com/package/stage0 (~1.6 kb framewok)
+
+Example: https://codepen.io/anon/pen/jQBxKe
 
 ```js
 import Stage0RenderPlugin from 'rete-stage0-render-plugin';
 
 editor.use(Stage0RenderPlugin);
 ```
-TODO
 
 ```js
 import CustomNodeComponent from './CustomNodeComponent.js';
-import CustomControlComponent from './CustomControlComponent.js';
 
 class MyComponent extends Rete.Component {
     constructor(){
@@ -24,16 +24,7 @@ class MyComponent extends Rete.Component {
     }
 }
 
-class MyControl extends Rete.Control {
-    constructor(){
-        // ...
-        this.data.render = 'stage0';
-        this.data.component = CustomControlComponent; // stage0.js component, required
-        this.data.props = {}; // props for the component above, not required
-    }
-}
 ```
-TODO
 
 ```js
 const node = editor.nodes[0];

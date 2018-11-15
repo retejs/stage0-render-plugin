@@ -58,7 +58,7 @@ function install(editor, params) {
     node.context = nodeProps;
     node._stage0 = createNode({ el, nodeProps, component });
     node.update = () => {
-      node.stage0Context.update(nodeProps);
+      node.stage0Context.rootUpdate(nodeProps);
     };
   });
 
@@ -71,7 +71,7 @@ function install(editor, params) {
     };
     control._stage0 = createControl(editor, { el, control, controlProps });
     control.update = () => {
-      control.stage0Context.update(controlProps);
+      control.stage0Context.rootUpdate(controlProps);
     };
   });
 

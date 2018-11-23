@@ -83,7 +83,8 @@ function install(editor, params) {
   });
 
   editor.on("nodeselected", () => {
-    for (const editorNode of editor.nodes) {
+    for (const key in editor.nodes) {
+      const editorNode = editor.nodes[key];
       const context = editorNode.context;
       editorNode.stage0Context.rootUpdate(context);
     }

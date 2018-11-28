@@ -21,7 +21,7 @@ function RootControlComponent(editor, { el, control, controlProps }) {
   this.el = el;
 
   BaseComponent.call(this, control);
-  this.component.root = this.root; // TODO before first upd?
+  this.component.root = this.root;
 }
 
 RootControlComponent.prototype.getView = function() {

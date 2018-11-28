@@ -20,7 +20,20 @@
     color: white
     font-family: sans-serif
     font-size: 18px
+    padding: 8px 8px 8px 0px
+    display: inline-block
+  .collapse
+    display: inline-block
     padding: 8px
+    cursor: pointer
+    width: 11px
+    color: white
+  .collapse:after
+    content: '\25BC'
+  .collapse.closed:after
+    content: '\25b8'
+    padding-left: 4px
+    vertical-align: text-bottom;
   .output
     text-align: right
   .input
@@ -40,3 +53,14 @@
     display: inline-block
   .control
     padding: $socket-margin $socket-size/2 + $socket-margin
+
+.node.collapsed
+  .control
+    display: none
+  .output
+    .output-title
+      display: none
+  .input
+    .input-title
+      display: none
+    

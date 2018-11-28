@@ -182,12 +182,32 @@ export function NodeComponent(scope) {
   this.visibleControls = undefined;
 
   this.name = null;
+  this.collapsed = false;
 
   BaseComponent.call(this, scope);
 }
 
+NodeComponent.prototype.init = function(scope) {
+  BaseComponent.prototype.init.call(this, scope);
+
+  this.refs.collapse.addEventListener("mousedown", (e) => {
+    e.stopPropagation();
+  });
+
+  this.refs.collapse.addEventListener("click", (_e) => {
+    if(this.refs.collapse.classList.contains("closed")){
+      this.collapsed = false;  
+    }else{
+      this.collapsed = true;
+    }    
+    
+    this.rootUpdate(scope);
+    scope.editor.view.updateConnections({node: scope.node});
+  });
+};
+
 NodeComponent.prototype.getView = function() {
-  return h(['<div class="node"><div class="title">#nodeName</div><div #outputs></div><div #controls></div><div #inputs></div></div>']);
+  return h(['<div class="node"><div class="collapse" #collapse></div><div class="title">#nodeName</div><div #outputs></div><div #controls></div><div #inputs></div></div>']);
 };
 
 NodeComponent.prototype.getInputComponent = function(item, node) {
@@ -211,6 +231,14 @@ NodeComponent.prototype.rootUpdate = function(scope) {
   }
 
   this.visibleInputs = Array.from(scope.node.inputs.values()).slice();
+
+  if(this.collapsed){
+    this.refs.collapse.classList.add("closed"); 
+    this.root.classList.add("collapsed");
+  }else{
+    this.refs.collapse.classList.remove("closed"); 
+    this.root.classList.remove("collapsed");
+  }
 
   reconcile(
     this.refs.inputs,

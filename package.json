@@ -1,6 +1,6 @@
 {
   "name": "rete-stage0-render-plugin",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Rete renderer using https://www.npmjs.com/package/stage0 (~1.6 kb framewok)",
   "main": "build/stage0-render-plugin.min.js",
   "repository": {

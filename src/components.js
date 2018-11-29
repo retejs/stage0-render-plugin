@@ -182,7 +182,7 @@ export function NodeComponent(scope) {
   this.visibleControls = undefined;
 
   this.name = null;
-  this.collapsed = false;
+  this.collapsed = scope.node.data["collapsed"] ? true : false;
 
   BaseComponent.call(this, scope);
 }

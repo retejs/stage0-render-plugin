@@ -207,7 +207,7 @@ NodeComponent.prototype.init = function(scope) {
 };
 
 NodeComponent.prototype.getView = function() {
-  return h(['<div class="node"><div class="collapse" #collapse></div><div class="title">#nodeName</div><div #outputs></div><div #controls></div><div #inputs></div></div>']);
+  return h(['<div class="node"><div class="collapse" #collapse></div><div class="title">#nodeName</div><div class="outputs" #outputs></div><div class="controls" #controls></div><div class="inputs" #inputs></div></div>']);
 };
 
 NodeComponent.prototype.getInputComponent = function(item, node) {
@@ -234,10 +234,12 @@ NodeComponent.prototype.rootUpdate = function(scope) {
 
   if(this.collapsed){
     this.refs.collapse.classList.add("closed"); 
-    this.root.classList.add("collapsed");
+    this.root.classList.add("collapsed");    
+    this.root.insertBefore(this.refs.inputs, this.refs.collapse);
   }else{
     this.refs.collapse.classList.remove("closed"); 
     this.root.classList.remove("collapsed");
+    this.root.appendChild(this.refs.inputs);
   }
 
   reconcile(

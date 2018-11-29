@@ -30,10 +30,11 @@
     color: white
   .collapse:after
     content: '\25BC'
+    vertical-align: middle
+    text-align: center
   .collapse.closed:after
-    content: '\25b8'
+    content: '\25b8'  
     padding-left: 4px
-    vertical-align: text-bottom;
   .output
     text-align: right
   .input
@@ -55,8 +56,16 @@
     padding: $socket-margin $socket-size/2 + $socket-margin
 
 .node.collapsed
+  float: left
   .control
     display: none
+  .outputs, .inputs  
+    display: inline-block
+    width: auto
+  .inputs, .input-title, .collapse 
+    float: left
+  .outputs
+    float: right
   .output
     .output-title
       display: none

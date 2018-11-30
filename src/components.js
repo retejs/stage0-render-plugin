@@ -75,8 +75,15 @@ export function ControlComponent(control) {
 }
 
 ControlComponent.prototype.init = function(control) {
-  this.control.parent.context.bindControl(this.root, control);
+  let ctx;
+  if (this.control.parent.context) ctx = this.control.parent.context;
+  else if (this.control.parent.node) ctx = this.control.parent.node.context;
+  ctx.bindControl(this.root, control);
   BaseComponent.prototype.init.call(this, control);
+
+  this.root.addEventListener("mousedown", e => {
+    e.stopPropagation();
+  });
 };
 
 ControlComponent.prototype.getView = function() {
@@ -104,31 +111,44 @@ export function InputComponent(input, node) {
 }
 
 InputComponent.prototype.getView = function() {
-  return h(['<div class="input"><div #socket></div><div class="input-title" #inputTitle>#inputName</div></div>']);
+  return h([
+    '<div class="input"><span class="input-socket" #socket></span><div class="input-title" #inputTitle>#inputName</div><div class="input-control" #controls></div></div>'
+  ]);
 };
 
 InputComponent.prototype.getSocketComponent = function(input) {
   return new SocketComponent(input, "input", this.node);
 };
 
+InputComponent.prototype.getControlComponent = function(input) {
+  return new ControlComponent(input.control, input.node);
+};
+
 InputComponent.prototype.rootUpdate = function(input) {
   let name = input.name;
 
+  while (this.refs.controls.firstChild) {
+    this.refs.controls.removeChild(this.refs.controls.firstChild);
+  }
+
+  if (this.root.contains(this.refs.inputtitle)) {
+    this.root.removeChild(this.refs.inputtitle);
+  }
+
   if (input.showControl()) {
+    const controlComp = this.getControlComponent(input);
+    this.refs.controls.appendChild(controlComp.root);
+  } else {
     this.root.appendChild(this.refs.inputtitle);
     if (this.name !== name) {
       this.name = this.refs.inputName.nodeValue = name;
     }
-  } else {
-    if (this.root.contains(this.refs.inputtitle)) this.root.removeChild(this.refs.inputtitle);
   }
 
-  const socketComp = this.getSocketComponent(input);
-
-  while (this.refs.socket.firstChild) {
-    this.refs.socket.removeChild(this.refs.socket.firstChild);
+  if (!this.refs.socket.firstChild) {
+    const compSocket = this.getSocketComponent(input);
+    this.refs.socket.appendChild(compSocket.root);
   }
-  this.refs.socket.appendChild(socketComp.root);
 };
 
 extend(InputComponent, BaseComponent);
@@ -144,7 +164,9 @@ export function OutputComponent(output, node) {
 }
 
 OutputComponent.prototype.getView = function() {
-  return h(['<div class="output"><div class="output-title" #outputTitle>#outputName</div><div #socket></div></div>']);
+  return h([
+    '<div class="output"><div class="output-title" #outputTitle>#outputName</div><div #socket></div></div>'
+  ]);
 };
 
 OutputComponent.prototype.getSocketComponent = function(output) {
@@ -157,12 +179,11 @@ OutputComponent.prototype.rootUpdate = function(output) {
   if (this.name !== name) {
     this.name = this.refs.outputName.nodeValue = name;
   }
-  const socketComp = this.getSocketComponent(output);
 
-  while (this.refs.socket.firstChild) {
-    this.refs.socket.removeChild(this.refs.socket.firstChild);
+  if (!this.refs.socket.firstChild) {
+    const compSocket = this.getSocketComponent(output);
+    this.refs.socket.appendChild(compSocket.root);
   }
-  this.refs.socket.appendChild(socketComp.root);
 };
 
 extend(OutputComponent, BaseComponent);
@@ -190,24 +211,26 @@ export function NodeComponent(scope) {
 NodeComponent.prototype.init = function(scope) {
   BaseComponent.prototype.init.call(this, scope);
 
-  this.refs.collapse.addEventListener("mousedown", (e) => {
+  this.refs.collapse.addEventListener("mousedown", e => {
     e.stopPropagation();
   });
 
-  this.refs.collapse.addEventListener("click", (_e) => {
-    if(this.refs.collapse.classList.contains("closed")){
-      this.collapsed = false;  
-    }else{
+  this.refs.collapse.addEventListener("click", _e => {
+    if (this.refs.collapse.classList.contains("closed")) {
+      this.collapsed = false;
+    } else {
       this.collapsed = true;
-    }    
-    
+    }
+
     this.rootUpdate(scope);
-    scope.editor.view.updateConnections({node: scope.node});
+    scope.editor.view.updateConnections({ node: scope.node });
   });
 };
 
 NodeComponent.prototype.getView = function() {
-  return h(['<div class="node"><div class="collapse" #collapse></div><div class="title">#nodeName</div><div class="outputs" #outputs></div><div class="controls" #controls></div><div class="inputs" #inputs></div></div>']);
+  return h([
+    '<div class="node"><div class="collapse" #collapse></div><div class="title">#nodeName</div><div class="outputs" #outputs></div><div class="controls" #controls></div><div class="inputs" #inputs></div></div>'
+  ]);
 };
 
 NodeComponent.prototype.getInputComponent = function(item, node) {
@@ -232,12 +255,12 @@ NodeComponent.prototype.rootUpdate = function(scope) {
 
   this.visibleInputs = Array.from(scope.node.inputs.values()).slice();
 
-  if(this.collapsed){
-    this.refs.collapse.classList.add("closed"); 
-    this.root.classList.add("collapsed");    
+  if (this.collapsed) {
+    this.refs.collapse.classList.add("closed");
+    this.root.classList.add("collapsed");
     this.root.insertBefore(this.refs.inputs, this.refs.collapse);
-  }else{
-    this.refs.collapse.classList.remove("closed"); 
+  } else {
+    this.refs.collapse.classList.remove("closed");
     this.root.classList.remove("collapsed");
     this.root.appendChild(this.refs.inputs);
   }
@@ -247,7 +270,7 @@ NodeComponent.prototype.rootUpdate = function(scope) {
     this.renderedInputs,
     this.visibleInputs,
     item => this.getInputComponent(item, scope.node).root,
-    (node, item) => node.update(item)
+    (input, item) => input.update(item)
   );
 
   this.renderedInputs = this.visibleInputs.slice();
@@ -261,7 +284,7 @@ NodeComponent.prototype.rootUpdate = function(scope) {
     item => {
       return this.getOutputComponent(item, scope.node).root;
     },
-    (node, item) => node.update(item)
+    (output, item) => output.update(item)
   );
 
   this.renderedOutputs = this.visibleOutputs.slice();
@@ -273,7 +296,7 @@ NodeComponent.prototype.rootUpdate = function(scope) {
     this.renderedControls,
     this.visibleControls,
     item => this.getControlComponent(item, scope.node).root,
-    (node, item) => node.update(item)
+    (control, item) => control.update(item)
   );
 
   this.renderedControls = this.visibleControls.slice();

@@ -39,6 +39,8 @@
     text-align: right
   .input
     text-align: left
+    .input-socket
+      display: inline-block
   .input-title,.output-title
     vertical-align: middle
     color: white
@@ -49,12 +51,12 @@
     line-height: $socket-size
   .input-control
     z-index: 1
-    width: calc(100% - #{$socket-size + 2*$socket-margin})
     vertical-align: middle
     display: inline-block
+    .control
+      padding-left: 0
   .control
     padding: $socket-margin $socket-size/2 + $socket-margin
-
 .node.collapsed
   float: left
   .control

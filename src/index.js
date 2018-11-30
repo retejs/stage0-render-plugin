@@ -41,17 +41,19 @@ function createNode({ el, nodeProps, component }) {
   return comp;
 }
 
-function createControl(editor, { el, control, controlProps }) {  
+function createControl(editor, { el, control, controlProps }) {
   const comp = new RootControlComponent(editor, { el, control, controlProps });
+
   control.stage0Context = comp;
+
   el.appendChild(comp.root);
-  
+
   comp.component.mounted();
 
   return comp;
 }
 
-function install(editor, params) {
+function install(editor, _params) {
   editor.on("rendernode", ({ el, node, component, bindSocket, bindControl }) => {
     if (component.render && component.render !== "stage0") return;
     const nodeProps = { ...component.props, node, editor, bindSocket, bindControl };
@@ -76,8 +78,8 @@ function install(editor, params) {
   });
 
   editor.on("connectioncreated connectionremoved", connection => {
-    const inputContext = connection.input.node.context;
-    const outputContext = connection.output.node.context;
+    let inputContext = connection.input.node.context;
+    let outputContext = connection.output.node.context;
     connection.output.node.stage0Context.rootUpdate(outputContext);
     connection.input.node.stage0Context.rootUpdate(inputContext);
   });

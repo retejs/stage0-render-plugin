@@ -28,7 +28,11 @@ RootControlComponent.prototype.getView = function() {
   return h([this.component.template]);
 };
 
-RootControlComponent.prototype.rootUpdate = function(control) {
+RootControlComponent.prototype.init = function(_control) {
+  this.root.update = this.rootUpdate.bind(this);
+};
+
+RootControlComponent.prototype.rootUpdate = function(_control) {
   this.component.methods.update.apply(this.component);
 };
 

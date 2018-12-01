@@ -269,7 +269,12 @@ NodeComponent.prototype.rootUpdate = function(scope) {
   const selected = scope.editor.selected.contains(scope.node);
 
   if (this.name !== scope.node.name || this.selected !== selected) {
-    this.root.className = "node " + scope.node.name + (selected ? " selected" : "");
+    this.root.classList.remove(this.name);
+    this.root.classList.remove("selected");
+
+    this.root.classList.add(scope.node.name);
+    if(selected)
+      this.root.classList.add("selected");
   }
 
   this.selected = selected;

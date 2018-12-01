@@ -6,6 +6,8 @@ Rete renderer using https://www.npmjs.com/package/stage0 (~1.6 kb framewok)
 
 Example: https://codepen.io/anon/pen/jQBxKe
 
+Package features a separate CSS stylesheet
+
 ```js
 import Stage0RenderPlugin from 'rete-stage0-render-plugin';
 

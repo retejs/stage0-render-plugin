@@ -39,7 +39,8 @@ RootControlComponent.prototype.rootUpdate = function(_control) {
 extend(RootControlComponent, BaseComponent);
 
 function createNode({ el, nodeProps, component }) {
-  const comp = Object.create(component.component.prototype, nodeProps) || new NodeComponent(nodeProps);
+  const comp = component.component ? new component.component(nodeProps) : new NodeComponent(nodeProps);
+  console.log(comp);
   nodeProps.node.stage0Context = comp;
   el.appendChild(comp.root);
   return comp;

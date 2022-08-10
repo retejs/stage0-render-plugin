@@ -1,4 +1,5 @@
 Stage0 Render
+## This repo is not maintained any more
 ====
 #### Rete.js plugin
 
